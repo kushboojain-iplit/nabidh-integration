@@ -140,4 +140,12 @@
             insert into openmrs_patient_feed_for_nabidh_job (name, cron_statement, start_delay, enabled) values ('openMRSPatientFailedFeedJob', '0/15 * * * * ?', 0, true);
         </sql>
     </changeSet>
+
+    <changeSet id="4" author="Bahmni" runOnChange="true">
+        <comment>Adding schedulers for openmrs encounter</comment>
+        <sql>
+            insert into openmrs_patient_feed_for_nabidh_job (name, cron_statement, start_delay, enabled) values ('openMRSEncounterFeedJob', '0/15 * * * * ?', 0, true);
+            insert into openmrs_patient_feed_for_nabidh_job (name, cron_statement, start_delay, enabled) values ('openMRSEncounterFailedFeedJob', '0/15 * * * * ?', 0, true);
+        </sql>
+    </changeSet>
 </databaseChangeLog>
