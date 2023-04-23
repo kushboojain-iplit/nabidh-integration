@@ -25,6 +25,9 @@ public class PatientFeedWorker implements EventWorker {
             logger.info("Getting patient details ...");
             String patientUri = event.getContent();
             OpenMRSPatientFullRepresentation patientFR = openMRSService.getPatientFR(patientUri);
+            if (patientFR.getPerson().getNames().get(0).getGivenName().startsWith("B")) {
+                throw new RuntimeException("Trying failed events");
+            }
             logger.info(String.valueOf(patientFR));
             logger.info(patientUri);
         } catch (Exception e) {
