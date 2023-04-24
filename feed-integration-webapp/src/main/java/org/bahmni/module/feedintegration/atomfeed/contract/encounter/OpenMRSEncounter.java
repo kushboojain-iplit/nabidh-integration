@@ -9,6 +9,8 @@ import java.util.List;
 public class OpenMRSEncounter {
     private String encounterUuid;
     private String patientUuid;
+
+    private String encounterType;
     private List<OpenMRSOrder> orders = new ArrayList<OpenMRSOrder>();
     private List<OpenMRSProvider> providers = new ArrayList<OpenMRSProvider>();
 
@@ -61,5 +63,13 @@ public class OpenMRSEncounter {
 
     public boolean hasOrders() {
         return getOrders().size() > 0;
+    }
+
+    public String getEncounterType() {
+        return encounterType;
+    }
+
+    public void setEncounterType(String encounterType) {
+        this.encounterType = encounterType;
     }
 }

@@ -29,6 +29,7 @@ public class EncounterFeedWorker implements EventWorker {
             String encounterUri = event.getContent();
             OpenMRSEncounter encounter = openMRSService.getEncounter(encounterUri);
             logger.info(String.valueOf(encounter));
+            logger.info(encounter.getEncounterType());
             List<OpenMRSOrder> orders = encounter.getOrders();
             orders.forEach(openMRSOrder -> {
                 logger.info("-----Action-----" + openMRSOrder.getAction());
