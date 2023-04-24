@@ -16,6 +16,7 @@ import java.util.List;
 @Component
 public class EncounterFeedWorker implements EventWorker {
     private static final Logger logger = LoggerFactory.getLogger(EncounterFeedWorker.class);
+    public static final String DISCHARGE_EVENT = "discharge";
 
     @Autowired
     private OpenMRSService openMRSService;
@@ -28,17 +29,32 @@ public class EncounterFeedWorker implements EventWorker {
         try {
             String encounterUri = event.getContent();
             OpenMRSEncounter encounter = openMRSService.getEncounter(encounterUri);
-            logger.info(String.valueOf(encounter));
-            logger.info(encounter.getEncounterType());
-            List<OpenMRSOrder> orders = encounter.getOrders();
-            orders.forEach(openMRSOrder -> {
-                logger.info("-----Action-----" + openMRSOrder.getAction());
-                logger.info("-----type-----" + openMRSOrder.getOrderType());
-            });
-            logger.info(encounterUri);
+            displayEventCode(encounter);
         } catch (Exception e) {
             logger.error("Failed to fetch patient details", e);
             throw new RuntimeException("Failed to fetch patient details", e);
+        }
+    }
+
+    private static void displayEventCode(OpenMRSEncounter encounter) {
+        String encounterType = encounter.getEncounterType();
+        logger.info(encounterType);
+        if (encounterType.equalsIgnoreCase(DISCHARGE_EVENT)) {
+            logger.info("Event Number A03- Discharge event");
+        } else if (encounterType.equalsIgnoreCase("consultation")) {
+            List<OpenMRSOrder> orders = encounter.getOrders();
+            orders.forEach(openMRSOrder -> {
+                if (openMRSOrder.getOrderType().equalsIgnoreCase("Lab Order")) {
+                    logger.info("Event Number R01- Lab order event");
+
+                }
+                if (openMRSOrder.getOrderType().equalsIgnoreCase("Drug Order")) {
+                    logger.info("Event Number O01- Medication event");
+
+                }
+                logger.info("-----Action-----" + openMRSOrder.getAction());
+                logger.info("-----type-----" + openMRSOrder.getOrderType());
+            });
         }
     }
 
