@@ -9,10 +9,10 @@ import java.util.List;
 public class OpenMRSEncounter {
     private String encounterUuid;
     private String patientUuid;
-
     private String encounterType;
     private List<OpenMRSOrder> orders = new ArrayList<OpenMRSOrder>();
     private List<OpenMRSProvider> providers = new ArrayList<OpenMRSProvider>();
+    private List<OpenMRSObservation> observations = new ArrayList<>();
 
     public OpenMRSEncounter() {
     }
@@ -71,5 +71,13 @@ public class OpenMRSEncounter {
 
     public void setEncounterType(String encounterType) {
         this.encounterType = encounterType;
+    }
+
+    public List<OpenMRSObservation> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(List<OpenMRSObservation> observations) {
+        this.observations = observations;
     }
 }

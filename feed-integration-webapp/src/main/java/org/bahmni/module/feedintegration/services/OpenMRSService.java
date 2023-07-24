@@ -6,8 +6,11 @@ import org.bahmni.module.feedintegration.atomfeed.contract.encounter.OpenMRSEnco
 import org.bahmni.module.feedintegration.atomfeed.contract.patient.OpenMRSPatientFullRepresentation;
 import org.bahmni.module.feedintegration.atomfeed.mappers.OpenMRSEncounterMapper;
 import org.bahmni.module.feedintegration.atomfeed.mappers.OpenMRSPatientMapper;
+import org.bahmni.module.feedintegration.atomfeed.worker.EncounterFeedWorker;
 import org.bahmni.webclients.HttpClient;
 import org.bahmni.webclients.ObjectMapperRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,6 +21,8 @@ import java.text.ParseException;
 
 @Component
 public class OpenMRSService {
+    private static final Logger logger = LoggerFactory.getLogger(OpenMRSService.class);
+
 
     public OpenMRSPatientFullRepresentation getPatientFR(String patientUrl) throws IOException, ParseException {
         HttpClient webClient = WebClientFactory.getClient();
@@ -44,6 +49,7 @@ public class OpenMRSService {
         String urlPrefix = getURLPrefix();
 
         String encounterJSON = webClient.get(URI.create(urlPrefix + encounterUrl));
+        logger.info(encounterJSON);
         return new OpenMRSEncounterMapper(ObjectMapperRepository.objectMapper).map(encounterJSON);
     }
 }
